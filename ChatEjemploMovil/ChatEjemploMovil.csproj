@@ -75,7 +75,16 @@
 
 	<ItemGroup>
 	  <Folder Include="Controls\" />
-	  <Folder Include="Helpers\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\ChatEjemploBibliotecaClase\ChatEjemploBibliotecaClase\ChatEjemploBibliotecaClase.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="ChatEjemploBibliotecaClase">
+	    <HintPath>..\..\ChatEjemploBibliotecaClase\ChatEjemploBibliotecaClase\bin\Debug\net8.0\ChatEjemploBibliotecaClase.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 </Project>
