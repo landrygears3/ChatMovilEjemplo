@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ChatEjemploMovil.Views.ChatView"
+             xmlns:vm="clr-namespace:ChatEjemploMovil.ViewModels"
+             BackgroundColor="#1f1f1f">
+
+    <ContentPage.BindingContext>
+        <vm:ChatViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid Padding="15">
+        <!-- Login View -->
+        <StackLayout x:Name="LoginLayout" VerticalOptions="Center" IsVisible="{Binding IsLoggedIn, Converter={StaticResource InverseBoolConverter}}">
+            <Frame CornerRadius="12" Padding="20" BackgroundColor="#2c2c2c">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Ingresa tu correo" TextColor="White" FontSize="18" FontAttributes="Bold"/>
+                    <Entry Text="{Binding Email}" Placeholder="correo@dominio.com" Keyboard="Email" BackgroundColor="#3a3a3a" TextColor="White" PlaceholderColor="#aaaaaa" />
+                    <Button Text="Entrar" Command="{Binding LoginCommand}" BackgroundColor="#0d6efd" TextColor="White" />
+                </VerticalStackLayout>
+            </Frame>
+        </StackLayout>
+
+        <!-- Chat View -->
+        <Grid x:Name="ChatLayout"
+      IsVisible="{Binding IsLoggedIn}"
+      RowDefinitions="Auto,*,Auto"
+      RowSpacing="10">
+
+            <!-- Usuarios conectados -->
+            <Frame Grid.Row="0" BackgroundColor="#2c2c2c" CornerRadius="10">
+                <VerticalStackLayout Padding="10">
+                    <Label Text="Usuarios conectados" TextColor="White" FontSize="16" FontAttributes="Bold" />
+                    <CollectionView ItemsSource="{Binding Usuarios}" HeightRequest="80">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Label Text="{Binding}" TextColor="#ccc" FontSize="14" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Mensajes -->
+            <CollectionView Grid.Row="1"
+                    x:Name="MensajesView"
+                    ItemsSource="{Binding Mensajes}"
+                    BackgroundColor="Transparent"
+                    VerticalOptions="FillAndExpand">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="{Binding IsMine, Converter={StaticResource BoolToColorConverter}}"
+                       CornerRadius="12"
+                       Padding="10"
+                       Margin="5"
+                       HorizontalOptions="{Binding IsMine, Converter={StaticResource BoolToAlignmentConverter}}">
+                            <StackLayout>
+                                <Label Text="{Binding Display}" FontSize="Large" TextColor="White" />
+                                <Label Text="10:36" FontSize="Small" TextColor="White" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Entrada -->
+            <Frame Grid.Row="2"
+           x:Name="InputContainer"
+           Padding="5"
+           BackgroundColor="#2c2c2c"
+           CornerRadius="10">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Entry Text="{Binding Message}" Placeholder="Mensaje..." BackgroundColor="#3a3a3a" TextColor="White" PlaceholderColor="#aaa" />
+                    <Button Text="Enviar" Command="{Binding SendCommand}" Grid.Column="1" BackgroundColor="#0d6efd" TextColor="White" />
+                </Grid>
+            </Frame>
+        </Grid>
+    </Grid>
+
+</ContentPage>
